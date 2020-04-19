@@ -69,6 +69,26 @@ def H_Bridge_test():
     time.sleep(2)
     pwm.set_pwm(5, 0, 0)
 
+def motor_driver(motor_id, speed):  # speed in [-1, 1]
+    # 0   8  9
+    # 1   10 11
+    # 2   12 13
+    # 3   14 15
+    pin_id = 8 + 2 * motor_id
+    pwm.set_pwm(pin_id, 0, 0)
+    pwm.set_pwm(pin_id + 1, 0, 0)
+    if speed < 0:
+        pin_id = pin_id + 1
+        speed *= -1.0
+    pulse = int(1000 + (4096-1000) * speed) 
+    pwm.set_pwm(pin_id, 0, pulse)
+    
+def motor_test():
+    pwm.set_pwm_freq(50)
+    motor_driver(0, 0.3)
+    
+    
 
 if __name__ == '__main__':
-    H_Bridge_test()
+    #H_Bridge_test()
+    motor_test()
