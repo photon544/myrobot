@@ -5,6 +5,8 @@
 from __future__ import division
 import time
 
+import argparse
+
 # Import the PCA9685 module.
 import Adafruit_PCA9685
 
@@ -86,17 +88,26 @@ def motor_driver(motor_id, speed):  # speed in [-1, 1]
         pulse = 0
     pwm.set_pwm(pin_id, 0, pulse)
     
-def motor_test():
+def motor_test(channel, speed):
     pwm.set_pwm_freq(50)
-    motor_driver(0, 0.3)
+    motor_driver(channel, speed)
     time.sleep(2)
-    motor_driver(0, -0.3)
+    motor_driver(channel, speed*(-1.0))
     time.sleep(2)
-    motor_driver(0, 0)
+    motor_driver(channel, 0)
     
     
-    
+parser = argparse.ArgumentParser()
+parser.add_argument("-f", "--function", help="choose the function to test: motor, servo", choices=['motor', 'servo'],
+                    default='motor')
+parser.add_argument("-c", "--channel", type=int, help="choose the motor channel", choices=range(4),
+                    default=0)
+parser.add_argument("-s", "--speed", type = float, help="the speed of the motor",
+                    default=0.5)
+args = parser.parse_args()
+
 
 if __name__ == '__main__':
+    if args.function == 'motor':
     #H_Bridge_test()
-    motor_test()
+        motor_test(args.channel, args.speed)
