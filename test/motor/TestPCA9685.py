@@ -75,17 +75,25 @@ def motor_driver(motor_id, speed):  # speed in [-1, 1]
     # 2   12 13
     # 3   14 15
     pin_id = 8 + 2 * motor_id
+    
     pwm.set_pwm(pin_id, 0, 0)
     pwm.set_pwm(pin_id + 1, 0, 0)
     if speed < 0:
         pin_id = pin_id + 1
         speed *= -1.0
     pulse = int(1000 + (4096-1000) * speed) 
+    if speed < 0.001
+        pulse = 0
     pwm.set_pwm(pin_id, 0, pulse)
     
 def motor_test():
     pwm.set_pwm_freq(50)
     motor_driver(0, 0.3)
+    time.sleep(2)
+    motor_driver(0, -0.3)
+    time.sleep(2)
+    motor_driver(0, 0)
+    
     
     
 
