@@ -111,3 +111,5 @@ if __name__ == '__main__':
     if args.function == 'motor':
     #H_Bridge_test()
         motor_test(args.channel, args.speed)
+    if args.function = 'servo':
+        servo_test()
